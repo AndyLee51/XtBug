@@ -1,0 +1,94 @@
+{% extends 'xtcheat/base.html' %}
+{% load static %}
+{% block head %} 
+    <script src="{% static 'xtcheat/js/changeMessage.js' %}"></script>  
+    <link href="{% static 'xtcheat/css/personal.css' %}" rel="stylesheet">   
+{% endblock head %}
+{% block content %}
+
+<div class="layui-card my-pane">
+    <div class="layui-card-header"><b>个人信息</b></div>
+    <div class="layui-card-body">
+        <form class="layui-form layui-form-pane" id="login-form" action="{% url 'xtcheat:login' %}" method="post">
+        {% csrf_token %}   
+        {% if user %}
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名:</label>
+                <div class="layui-input-inline">
+                    <input type="text" required  readonly="true" lay-verify="required" placeholder="请输入用户..." autocomplete="off" 
+                    class="layui-input" value="{{user.username}}">
+                </div>
+            </div>
+        
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机:</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="phone_span" required  readonly="true" lay-verify="required" placeholder="请输入用户..." autocomplete="off" 
+                    class="layui-input" value="{{user.phone|default:'空'}}">
+                    
+                </div>
+                <div class="layui-form-mid layui-word-aux"><a style="color:#01AAED" href="{%url 'xtcheat:update_phone' %}">修改手机</a></div>
+            </div>
+        
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱:</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="email_span" required  readonly="true" lay-verify="required" placeholder="请输入用户..." autocomplete="off" 
+                    class="layui-input" value="{{user.email|default:'空'}}">
+                </div>
+                <div class="layui-form-mid layui-word-aux"> <a style="color:#01AAED" href="{%url 'xtcheat:update_email' %}">修改邮箱</a></div>
+            </div>
+        
+            <div class="layui-form-item" style="padding-left: 30px;">
+                <input type="checkbox" id="phoneon" name="phoneon" title="短信提醒" lay-filter="phoneon" 
+                {% if user.phoneon %}
+                    checked="checked"
+                {% endif %}
+                >    
+                <input type="checkbox" id="emailon" name="emailon" title="邮箱提醒" lay-filter="emailon" 
+                {% if user.emailon %}
+                    checked="checked"
+                {% endif %}
+                >    
+            </div>
+            <!-- <div class="layui-form-item">
+                <input type="checkbox" id="emailon" name="emailon" title="邮箱提醒" lay-filter="emailon" 
+                {% if user.emailon %}ddd
+                    checked="checked"
+                {% endif %}
+                >    
+            </div> -->
+        </form>
+    </div>
+</div>
+
+    <script>
+        layui.use('form',function(){
+            var form = layui.form
+            form.render()
+            form.render('checkbox')
+        })
+    </script>
+{% endif  %}
+<!-- </form>
+    {% if user %}
+       <p>姓名:{{user.username}}</p>
+       <p>手机: <span id='phone_span'>{{user.phone|default:'空'}}</span>  <a href="{%url 'xtcheat:update_phone' %}">修改手机</a> </p>
+       <p>邮箱: <span id='email_span'>{{user.email|default:'空'}}</span>  <a href="{%url 'xtcheat:update_email' %}">修改邮箱</a> </p>
+       {% csrf_token %}
+       <p>短信提醒:
+           <input type="checkbox" name="phoneon" id="phoneon" onchange="changePhoneOn()"
+           {% if user.phoneon %}
+               checked="checked"
+           {% endif %}
+           >
+       </p>
+       <p>邮箱提醒:
+            <input type="checkbox" name="emailon" id="emailon" onchange="changeMailOn()"
+            {% if user.emailon %}
+                checked="checked"
+            {% endif %}
+            >
+        </p>
+    {% endif %} -->
+{% endblock content %}  

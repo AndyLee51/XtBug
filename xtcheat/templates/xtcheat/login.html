@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	{% load static %}
+<title>登录</title>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+ <link href="{% static 'xtcheat/layui/css/layui.css' %}" rel="stylesheet">
+ <link href="{% static 'xtcheat/css/login.css' %}" rel="stylesheet">
+
+ <script src="{% static 'xtcheat/js/jquery.min-1.9.1.js' %}"></script>
+ <script src="{% static 'xtcheat/layui/layui.js' %}"></script>
+ <script src="{% static 'xtcheat/js/login.js' %}"></script>
+</head>
+
+<body>
+    <div class="layui-container login-container"> 
+        <div class="layui-row">
+            <div class="layui-col-md4">
+            </div>
+            <div class="layui-col-md5">
+                <div class="layui-card">
+                    <div class="layui-card-header login-heading"><h3>打卡提醒</h3>  </div>
+                    <div class="layui-card-body login-cardbody">
+                        <!-- 表单 -->
+                        <form class="layui-form layui-form-pane" id="login-form" action="{% url 'xtcheat:login' %}" method="post" >
+                            {% csrf_token %}
+                            {% if error %}
+                                {% if '密码' in error%}
+                                    <script>
+                                        layui.use('layer', function(){
+                                            var layer = layui.layer;
+                                            layer.tips('密码错误，请重新输入', '#id_password');
+                                        });
+                                    </script>
+                                {% else %}
+                                    <script>
+                                        layui.use('layer', function(){
+                                            var layer = layui.layer;
+                                            layer.tips('用户名错误，请重新输入', '#id_username');
+                                        });
+                                        
+                                    </script>
+                                {% endif %}
+                            {% endif %}
+                            
+                            <!-- 用户 -->
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">用户</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="id_username" name="account" required  lay-verify="required" placeholder="请输入用户..." autocomplete="off" class="layui-input"
+                                    {% if account %}
+                                        value="{{account}}"
+                                    {% endif %}
+                                    >
+                                </div>
+                            </div>
+                            <!-- end用户 -->
+                            <!-- 密码 -->
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">密码</label>
+                                <div class="layui-input-block">
+                                    <input type="password" id="id_password" name="password" required lay-verify="required" placeholder="请输入密码..." autocomplete="off" class="layui-input"
+                                    {% if password %}
+                                        value="{{password}}"
+                                    {% endif %}
+                                    >
+                                </div>
+                            </div>
+                            <!-- end密码 -->
+                            <!-- 组别 -->
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">组别:</label>
+                                <div class="layui-input-block">
+                                    <select id="id_group" name="groupid" lay-verify="">
+                                        {% if groupinfo %}
+                                            {% for info in groupinfo %}
+                                                {% if info %}
+                                                    <option value="{{info.G_ID}}">{{info.G_NAME}}</option>
+                                                {% else %}
+
+                                                {% endif %}
+                                                
+                                            {% endfor %}
+                                        {% endif %}  
+                                    </select>
+                                    
+                                </div>
+                            </div>
+                            <!-- end组别 -->
+                            <!-- 记住密码 -->
+                            <div class="layui-form-item layui-form">
+                                <label class="layui-form-label">记住密码</label>
+                                <div class="layui-input-inline">
+                                    <!-- <input type="checkbox" name="switch" lay-skin="switch"> -->
+                                    <input type="checkbox" name="IsRemember" id="IsRemember" lay-skin="switch" lay-text="开|关"
+                                    {% if remember %}
+                                        checked="checked"
+                                    {% endif %}
+                                    >
+                                </div>
+                                <button class="layui-btn layui-anim layui-anim-scaleSpring" lay-submit lay-filter="formDemo">立即登录</button>
+                            </div>
+                                
+                            <!-- end记住密码 -->
+                        </form>
+                        <!-- end表单 -->
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
+            </div>
+        </div>
+    </div>
+    <script>
+        layui.use('form',function(){
+            var form = layui.form
+            form.render()
+        })
+    </script>
+</body>
+
+</html>

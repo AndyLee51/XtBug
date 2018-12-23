@@ -1,0 +1,14 @@
+.login-heading{
+	text-align: initial;
+    font-size: 120%;
+    background-color: #393D49;
+    color: white;
+}
+.login-cardbody{
+	border-bottom-style: double;
+}
+.login-container{
+	position: absolute;
+    left: 33%;
+    bottom: 40%;
+}

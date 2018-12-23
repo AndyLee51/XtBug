@@ -1,0 +1,43 @@
+{% extends 'xtcheat/base.html' %}
+{% load static %}
+{% block head %}
+    <script src="{% static 'xtcheat/js/phonevalidatenum.js' %}"></script>     
+{% endblock head %}
+{% block content %}
+<div class="layui-card my-pane">
+    <div class="layui-card-header"><b>修改手机</b></div>
+    <div class="layui-card-body">
+        <form class="layui-form layui-form-pane" id="login-form" onsubmit="return compare()" action="{% url 'xtcheat:save_phone' %}" method="post">
+        {% csrf_token %}   
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机:</label>
+                <div class="layui-input-inline">
+                    <input type="text" required id="phone" name="phone" lay-verify="required" placeholder="请输入手机号..." autocomplete="off" 
+                    class="layui-input" 
+                    {% if phone %}
+                        value = '{{phone}}'
+                    {% endif %}
+                    >
+                </div>
+                <button class="layui-btn layui-anim layui-anim-scaleSpring" id="getValinum">获取验证码</button>
+            </div>
+        
+            <div class="layui-form-item">
+                <label class="layui-form-label">验证码:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="validate" id="validate" required lay-verify="required" placeholder="请输入验证码..." autocomplete="off" 
+                    class="layui-input">
+                    
+                </div>
+            </div>
+        
+            <div class="layui-form-item layui-form" style="margin-left: 15%;">
+                <button class="layui-btn layui-anim layui-anim-scaleSpring" style="margin-left:50px;width: 100px;" lay-submit lay-filter="formDemo">提  交</button>
+            </div>
+            
+        </form>
+    </div>
+  </div>
+
+
+{% endblock content %}

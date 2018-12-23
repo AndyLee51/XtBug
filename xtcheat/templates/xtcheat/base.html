@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load static %}
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="{% static 'xtcheat/layui/css/layui.css' %}" rel="stylesheet">
+    <link href="{% static 'xtcheat/css/base.css' %}" rel="stylesheet">
+    <link href="{% static 'xtcheat/css/base.css' %}" rel="stylesheet">
+    <script src="{% static 'xtcheat/js/jquery.min-1.9.1.js' %}"></script>
+    <script src="{% static 'xtcheat/layui/layui.js' %}"></script>
+    <!-- <script src="{% static 'xtcheat/js/login.js' %}"></script> -->
+    <style>
+        .my-pane{
+            margin-left: 30%;
+            margin-top: 8%;
+        }
+    </style>
+    {% block head %}
+		
+    {% endblock head %}
+    <title>打卡提醒</title>
+</head>
+<body >
+    <div class="layui-container login-container" > 
+        <div class="layui-row">
+            <!-- sidemenu -->
+            <div class="layui-col-lg12"> 
+                <ul class="layui-nav" lay-filter="test">
+                <!-- <ul class="layui-nav layui-nav-tree layui-nav-side "> -->
+                    <li class="layui-nav-item base-li"> <!-- class:layui-nav-itemed 默认展开-->
+                    <a href="{%url 'xtcheat:personal'%}">主页</a>
+                    </li>
+
+                    <li class="layui-nav-item base-li">
+                    <a href="javascript:;">信息修改</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="{%url 'xtcheat:update_phone'%}">修改手机</a></dd>
+                        <dd><a href="{%url 'xtcheat:update_email'%}">修改邮箱</a></dd>
+                    </dl>
+                    </li>
+
+                    <li class="layui-nav-item base-li">
+                    <a href="javascript:;">模板定制</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="{%url 'xtcheat:wait'%}">短信模板</a></dd>
+                            <dd><a href="{%url 'xtcheat:wait'%}">邮件模板</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item base-li"><a href="{%url 'xtcheat:wait'%}">投诉建议</a></li>
+                    <li class="layui-nav-item base-li"><a href="{%url 'xtcheat:login'%}">注销</a></li>
+                </ul>
+            </div>
+             <!-- end sidemenu --> 
+        </div>
+        <!-- content -->
+        <span style='font-size: 50%;color: grey'>*开通提醒后将在早九点以及晚八点各检测一次打卡信息</span>
+        <div class="layui-row  content-row">
+            <!-- <div style="border:1px solid;display:inline-block;width:0px;height:100% "></div> -->
+            <div>
+                
+                <div class="layui-col-lg12">
+                    {% block content %}
+                
+                    {% endblock content %}
+                </div>
+            </div>
+         </div>
+          <!-- end content -->
+    </div>
+    <script>
+        layui.use('element', function(){
+            var element = layui.element;
+            element.render('nav','test'); //重新对导航进行渲染。注：layui 2.1.6 版本新增
+        })
+        
+    </script>
+</body>
+</html>
