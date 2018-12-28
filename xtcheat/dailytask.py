@@ -154,18 +154,41 @@ def send_tips_via_phone(account,password,phone):
         content = f"【打卡提醒】{tip},请及时登录微信打卡，以免影响您的考勤。"
         client.send(phone,content)
 
-def send_tips_to_everyone():
-    print(getRecords('lixin0501','844099269'))
-    users = Userinfo.objects.all()
-    for user in users:
-        username = user.account
-        password = user.password
-        phone = user.phone
-        email = user.email 
-        phoneon = user.phoneon
-        emailon = user.emailon
+'''
+author:Lixin
+date:20181227
+desc:获取日期是否为节假日
+input:
+return:0:工作日 1:休息日 2:节假日
+'''
+def is_holiday():
+    year=datetime.today().year
+    month=datetime.today().month
+    day=datetime.today().day
+    today=f"{str(year)}{str(month)}{str(day)}"
+    re = requests.get(f"http://api.goseek.cn/Tools/holiday?date={today}")
+    return re.json()['data']
 
-        if (phoneon):
-            send_tips_via_phone(username,password,phone)
-        if (emailon):
-            send_tips_via_email(username,password,email)
+
+'''
+author:Lixin
+date:20181227
+desc:向数据库内所有用户发送提醒
+input:
+return:
+'''
+def send_tips_to_everyone():
+    if is_holiday()==0:
+        users = Userinfo.objects.all()
+        for user in users:
+            username = user.account
+            password = user.password
+            phone = user.phone
+            email = user.email 
+            phoneon = user.phoneon
+            emailon = user.emailon
+
+            if (phoneon):
+                send_tips_via_phone(username,password,phone)
+            if (emailon):
+                send_tips_via_email(username,password,email)
